@@ -20,7 +20,7 @@ export const createUsuario = async (req, res) => {
 }
 
 export const findOneUsuario = async (req, res) => {
-    const usuario = await usuarioModel.findById(req.params.id)
+    const usuario = await usuarioModel.findById(req.params.usuario, req.params.contrasenha)
     .populate('codigoRolXPermiso');
     res.json(usuario)
 }
