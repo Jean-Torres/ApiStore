@@ -5,8 +5,8 @@ const router = Router();
 
 router.post('/', usuarioCtrl.createUsuario);
 router.get('/', usuarioCtrl.findAllUsuario);
-router.get('/:id', usuarioCtrl.findOneUsuario);
-router.delete('/:id', usuarioCtrl.deleteUsuario);
-router.put('/:id', usuarioCtrl.updateUsuario);
+router.get('/:usuario/:contrasenha', usuarioCtrl.findOneUsuario);
+router.delete('/:usuario/:contrasenha', usuarioCtrl.deleteUsuario);
+router.put('/:usuario/:contrasenha', usuarioCtrl.updateUsuario);
 
 export default router;
