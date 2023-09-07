@@ -20,19 +20,19 @@ export const createUsuario = async (req, res) => {
 }
 
 export const findOneUsuario = async (req, res) => {
-    const usuario = await usuarioModel.findById(req.params.usuario, req.params.contrasenha)
+    const usuario = await usuarioModel.findOne({usuario: req.query.usuario, contrasenha: req.query.contrasenha})
     .populate('codigoRolXPermiso');
     res.json(usuario)
 }
 
 export const deleteUsuario = async (req, res) => {
-    await usuarioModel.findByIdAndDelete(req.params.id)
+    await usuarioModel.findOneAndDelete(req.query.usuario, req.query.contrasenha)
     res.json({
         message: `${req.params.id} were deleted successfully`
     })
 }
 
 export const updateUsuario = async (req, res) => {
-    const updatedUsuario = await usuarioModel.findByIdAndUpdate(req.params.id, req.body)
+    const updatedUsuario = await usuarioModel.findOneAndUpdate(req.query.usuario, req.query.contrasenha)
     res.json({ updatedUsuario })
 }
