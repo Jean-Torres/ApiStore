@@ -33,6 +33,12 @@ export const deleteUsuario = async (req, res) => {
 }
 
 export const updateUsuario = async (req, res) => {
-    const updatedUsuario = await usuarioModel.findOneAndUpdate({ usuario: req.body.usuario, contrasenha: req.body.contrasenha }, req.body)
-    res.json({ updatedUsuario })
+    const updatedUsuario = await usuarioModel.findOneAndUpdate({ usuario: req.body.usuario, contrasenha: req.body.contrasenha },
+        { contrasenha: req.body.newContrasenha },
+        { new: true })
+    if (updateUsuario) {
+        res.status = 205
+    } else {
+        res.status = 404
+    }
 }
