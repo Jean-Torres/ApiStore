@@ -33,12 +33,18 @@ export const deleteUsuario = async (req, res) => {
 }
 
 export const updateUsuario = async (req, res) => {
-    const updatedUsuario = await usuarioModel.findOneAndUpdate({ usuario: req.body.usuario, contrasenha: req.body.contrasenha },
-        { contrasenha: req.body.newContrasenha },
-        { new: true })
-    if (updateUsuario) {
-        res.status = 205
-    } else {
-        res.status = 404
+    try {
+        const usuarioActualizado = await usuarioModel.findOneAndUpdate(
+            { usuario: req.body.usuario, contrasenha: req.body.contrasenha },
+            { contrasenha: req.body.newContrasenha },
+            { new: true }
+        );
+        if (usuarioActualizado) {
+            res.sendStatus(205);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (error) {
+        res.sendStatus(500);
     }
-}
+};
