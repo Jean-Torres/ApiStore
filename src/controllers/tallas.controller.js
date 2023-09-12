@@ -1,15 +1,15 @@
 import tallasModel from "../models/tallas.model";
 
 export const findAllTalla = async (req, res) => {
-    try {
+    // try {
         const tallas = await tallasModel.find();
         res.json(tallas);
-    } catch (error) {
-        res.status = 500;
-        res.json({
-            message: "Something goes wrang creating the tallas"
-        })
-    }
+    // } catch (error) {
+    //     res.status = 500;
+    //     res.json({
+    //         message: "Something goes wrang creating the tallas"
+    //     })
+    // }
 }
 
 export const createTalla = async (req, res) => {

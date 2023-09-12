@@ -1,20 +1,15 @@
 import tallaProductos from '../models/tallaProducto.model'
 
 export const findAllTallaProducto = async (req, res) => {
-    // try {
         const tallaproducto = await tallaProductos.find()
         .populate('referenceProducto referenceTalla');
         res.json(tallaproducto);
-    // } catch (error) {
-    //     res.status = 500;
-    //     res.json({
-    //         message: "Something goes wrang creating the tallaProducto"
-    //     })
-    // }
 }
 
 export const createTallaProducto = async (req, res) => {
-    const tallaproducto = new tallaProductos({ codigo: req.body.codigo, referenceProducto: req.body.referenceProducto, referenceTalla: req.body.referenceTalla, cantidad: req.body.cantidad })
+    const tallaproducto = new tallaProductos({
+         codigo: req.body.codigo, referenceProducto: req.body.referenceProducto, referenceTalla: req.body.referenceTalla,
+          cantidad: req.body.cantidad })
     const newTallaProducto = await tallaproducto.save();
     res.json(newTallaProducto);
 }

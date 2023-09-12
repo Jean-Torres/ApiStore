@@ -1,29 +1,27 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Mongoose, Schema, model } from "mongoose";
 
 const UsuariosSchema = new Schema({
-    usuario: {
-        type: String,
+    cedula: {
+        type: Number,
         unique: true,
-        require: [true, 'El campo usuarios es requerido'],
-        trim: true
-    }, contrasenha: {
+        require: [true, 'El campo cedula es requerido']
+    }, nombres: {
         type: String,
         unique: false,
-        require: [true, 'El campo contraseña es requerido'],
-        trim: true
-    }, correo: {
+        require: [true, 'El campo nombres es requerido']
+    }, apellidos: {
         type: String,
-        unique: true,
-        require: [true, 'El campo correo es requerido'],
-        trim: true
-    }, codigoRolXPermiso: {
+        unique: false,
+        require: [true, 'El campo apellidos es requerido']
+    }, fechaNacimiento: {
+        type: Date,
+        unique: false,
+        require: [true, 'El campo nacimiento es requerido']
+    }, datosPersonales: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'rolXpermisos'
-    }
-}, {
-    versionKey: false,
-    timestamps: true
+        ref: 'datosPersonales'
+    },
+
 })
 
-export default model('usuarios', UsuariosSchema
-)
+export default model('usuarios', UsuariosSchema);

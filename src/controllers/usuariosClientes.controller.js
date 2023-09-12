@@ -3,7 +3,7 @@ import usuarioModel from "../models/usuarios.model";
 export const findAllUsuario = async (req, res) => {
     try {
         const usuarios = await usuarioModel.find()
-            .populate('codigoRolXPermiso');
+            .populate('datosPersonales');
         res.json(usuarios);
     } catch (error) {
         res.status = 500;
@@ -13,20 +13,22 @@ export const findAllUsuario = async (req, res) => {
     }
 }
 
+export const findOneUsuario = async (req, res) => {
+    const usuario = await usuarioModel.findOne()
+        .populate('datosPersonales');
+    res.json(usuario)
+}
+
 export const createUsuario = async (req, res) => {
-    const newUsuario = new usuarioModel({ usuario: req.body.usuario, contrasenha: req.body.contrasenha, correo: req.body.correo, codigoRolXPermiso: req.body.codigoRolXPermiso })
+    const newUsuario = new usuarioModel({
+        cedula: req.body.cedula, nombres: req.body.nombres, apellidos: req.body.apellidos, fechaNacimiento: req.body.fechaNacimiento, datosPersonales: req.body.datosPersonales
+    })
     const usuarioSave = await newUsuario.save();
     res.json({ usuarioSave });
 }
 
-export const findOneUsuario = async (req, res) => {
-    const usuario = await usuarioModel.findOne({ usuario: req.query.usuario, contrasenha: req.query.contrasenha })
-        .populate('codigoRolXPermiso');
-    res.json(usuario)
-}
-
 export const deleteUsuario = async (req, res) => {
-    await usuarioModel.findOneAndDelete({ usuario: req.body.usuario, contrasenha: req.body.contrasenha })
+    await usuarioModel.findOneAndDelete(req.body.id)
     res.json({
         message: `${req.params.id} were deleted successfully`
     })
@@ -35,8 +37,8 @@ export const deleteUsuario = async (req, res) => {
 export const updateUsuario = async (req, res) => {
     try {
         const usuarioActualizado = await usuarioModel.findOneAndUpdate(
-            { usuario: req.body.usuario, contrasenha: req.body.contrasenha },
-            { contrasenha: req.body.newContrasenha },
+            { cedula: req.body.cedula },
+            req.body.newContrasenha,
             { new: true }
         );
         if (usuarioActualizado) {

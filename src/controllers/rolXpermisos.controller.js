@@ -1,26 +1,23 @@
 import rxpModel from "../models/rolXpermisos.model";
 
 export const findAllRolPermisos = async (req, res) => {
-    // try {
-        const rolPermiso = await rxpModel.find()
-        .populate('codigoRol codigoPermiso');
-        res.json(rolPermiso);
-    // } catch (error) {
-    //     res.status = 500;
-    //     res.json({
-    //         message: "Something goes wrang creating the tallas"
-    //     })
-    // }
+    const datosBuscar = "codigoRol codigoPermiso"
+    const rolPermiso = await rxpModel.find({}, datosBuscar)
+        .populate('codigoPermiso codigoRol');
+    res.json(rolPermiso);
+
 }
 
 export const createRolPermisos = async (req, res) => {
     const newRolPermiso = new rxpModel({ codigo: req.body.codigo, codigoRol: req.body.codigoRol, codigoPermiso: req.body.codigoPermiso })
     const rolPermisoSave = await newRolPermiso.save();
-    res.json({rolPermisoSave});
+    res.json({ rolPermisoSave });
 }
 
 export const findOneRolPermiso = async (req, res) => {
-    const rolPermiso = await rxpModel.findById(req.params.id)
+    const datosBuscar = "codigoRol codigoPermiso"
+    const rolPermiso = await rxpModel.findById(req.params.id, datosBuscar)
+    .populate('codigoPermiso codigoRol')
     res.json(rolPermiso)
 }
 
