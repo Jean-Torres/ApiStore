@@ -8,12 +8,13 @@ export const findAllUsuario = async (req, res) => {
     } catch (error) {
         res.status = 500;
         res.json({
-            message: "Something goes wrang creating the tallas"
+            message: "Something goes wrang creating the empleado"
         })
     }
 }
 
 export const findOneUsuario = async (req, res) => {
+    
     const usuario = await usuarioModel.findOne()
         .populate('datosPersonales');
     res.json(usuario)

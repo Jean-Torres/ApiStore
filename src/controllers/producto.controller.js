@@ -2,17 +2,22 @@ import productos from '../models/productos.model'
 
 export const findAllProducto = async (req, res) => {
     const producto = await productos.find()
-    .populate('categoria');
+        .populate('categoria');
     res.json(producto);
 }
 
 export const createProducto = async (req, res) => {
-    const producto = new productos({ codigo: req.body.codigo, nombre: req.body.nombre, descripcion: req.body.descripcion, cantidad: req.body.cantidad, valorUnitario: req.body.valorUnitario,
-        estadoProducto: req.body.estadoProducto, categoria: req.body.categoria})
-    const newProducto = await producto.save();
-    res.json(newProducto);
+    try {
+        const producto = new productos({
+            codigo: req.body.codigo, nombre: req.body.nombre, descripcion: req.body.descripcion, cantidad: req.body.cantidad, valorUnitario: req.body.valorUnitario,
+            estadoProducto: req.body.estadoProducto, categoria: req.body.categoria
+        })
+        const newProducto = await producto.save();
+        res.json(newProducto);
+    } catch (error) {
+        res.send({message: `clave duplicada ${error}`})
+    }
 }
-
 export const findOneProducto = async (req, res) => {
     const producto = await productos.findById(req.params.id)
     res.json(producto);

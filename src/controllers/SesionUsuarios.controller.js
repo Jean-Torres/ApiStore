@@ -1,24 +1,38 @@
+import { token } from "morgan";
 import usuarioModel from "../models/sesionUsuarios.model";
+import jwt from "jsonwebtoken"
+
+export const verifyToken = (req, res, next) => {
+    const headertoken = req.headers['authorization'];
+    if (typeof headertoken !== 'undefined') {
+        const token = headertoken;
+        req.token = token;
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+}
 
 export const findAllUsuario = async (req, res) => {
     try {
-        const datosBuscar = "usuario correo"
-        const usuarios = await usuarioModel.find({}, datosBuscar)
-            .populate('codigoRolXPermiso');
-        res.json(usuarios);
+        const usuarios = await usuarioModel.find({}).populate('codigoRolXPermiso');
+        res.json({ usuarios });
     } catch (error) {
-        res.status = 500;
-        res.json({
-            message: "Something goes wrang creating the tallas"
-        })
+        console.error(error);
+        res.sendStatus(500).json({
+            message: "Something went wrong while fetching the users"
+        });
     }
 }
 
 export const findOneUsuario = async (req, res) => {
-    const datosBuscar = "usuario correo"
-    const usuario = await usuarioModel.findOne({ usuario: req.query.usuario, contrasenha: req.query.contrasenha }, datosBuscar)
+    const usuario = await usuarioModel.findOne({ usuario: req.body.usuario, contrasenha: req.body.contrasenha })
         .populate('codigoRolXPermiso');
-    res.json(usuario)
+    jwt.sign({ usuario }, 'secretKey', (error, token) => {
+        res.json({
+            token
+        })
+    });
 }
 
 export const createUsuario = async (req, res) => {
